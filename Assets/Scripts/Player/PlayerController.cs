@@ -1,16 +1,29 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public float currentHP = 100;
-    public float speed = 5f;
+    public PlayerData dataPemain;
+
+    private float currentHP;
+    private float speed;
     private PlayerInput playerInput;
     private Vector2 moveInput;
 
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+
+        if (dataPemain != null) 
+        {
+            currentHP = dataPemain.maxHP;
+            speed = dataPemain.moveSpeed;
+        }
+        else 
+        {
+            Debug.LogError("File PlayerData belum dimasukkan ke Inspector");
+        }
     }
     
     
@@ -40,7 +53,7 @@ public class PlayerController : MonoBehaviour
 
         if (currentHP <= 0)
         {
-            GameManager.Instance.GameOver();
+            SceneManager.LoadScene("GameOver");
         }
     }
 }
